@@ -2,8 +2,6 @@
 #include <string>
 #include <vector>
 
-
-
 struct Node
 {
 	struct Cxn
