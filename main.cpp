@@ -1,8 +1,15 @@
 #include <iostream>
 #include <string>
+#include <vector>
 #include "LinkedList.h"
 
 using namespace std;
+
+string getStartLocation();
+string getSearchType();
+void BFS(Node*);
+void DFS(Node*);
+void IDS(Node*);
 
 int main()
 {
@@ -26,6 +33,7 @@ int main()
 	Node Neamt("Neamt");
 	Node Hirsova("Hirsova");
 	Node Eforie("Eforie");
+
 	Oradea.addCxn(&Zerind, 71, &Sibiu, 151);
 	Zerind.addCxn(&Oradea, 71, &Arad, 75);
 	Arad.addCxn(&Zerind, 75, &Sibiu, 151, &Timisoara, 118);
@@ -46,8 +54,73 @@ int main()
 	Vaslui.addCxn(&Urziceni, 142, &Iasi, 92);
 	Neamt.addCxn(&Iasi, 92);
 
+	string sl = getStartLocation();
+	string st = getSearchType();
+
+	BFS(&Oradea);
+
 	for (auto i : Bucharest.cxnList)
 	{
 		cout << i.adjCity->city << ", " << i.distance << endl;
 	}
+}
+
+string getStartLocation()
+{
+	string startingLocation;
+	cout << "Where will you be departing from in your travels to Bucharest?" << endl;
+	cin >> startingLocation;
+	return startingLocation;
+}
+
+string getSearchType()
+{
+	string searchType;
+	cout << "What type of search would you like to do?" << endl <<
+		"Type 'b' for breadth first search" << endl <<
+		"Type 'd' for depth first search" << endl <<
+		"Type 'i' for iterative deepening search" << endl <<
+		"Then press ENTER" << endl << endl;
+	cin >> searchType;
+	return searchType;
+}
+
+//TODO
+void BFS(Node* root)
+{
+	Node* currentNode = root;
+	vector<Node>visited;
+	vector<Node>currentDepth;
+
+	//checks if Bucharest has been found
+	for (auto i : currentNode->cxnList)
+	{
+		if (i.adjCity->city == "Bucharest")
+		{
+			cout << "Bucharest found";
+			return;
+		}
+	}
+	//checks if next level is visited before adding to currentDepth
+	for (auto i : currentNode->cxnList)
+	{
+		bool unvisited = true;
+		for (auto j : visited)
+		{
+			if (i.adjCity->city == j.city)
+				unvisited = false;
+		}
+		if (unvisited == true)
+			currentDepth.push_back(*currentNode);
+	}
+}
+
+void DFS(Node* root)
+{
+	vector<Node>visited;
+}
+
+void IDS(Node* root)
+{
+	vector<Node>visited;
 }
