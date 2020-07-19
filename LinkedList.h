@@ -22,27 +22,31 @@ struct Node
 	{
 		if (newNode1 != nullptr)
 		{
-			Cxn* newCxn1 = new Cxn;
-			newCxn1->adjCity = newNode1;
-			newCxn1->distance = d1;
+			Cxn newCxn1;
+			newCxn1.adjCity = newNode1;
+			newCxn1.distance = d1;
+			cxnList.push_back(newCxn1);
 		}
 		if (newNode2 != nullptr)
 		{
-			Cxn* newCxn2 = new Cxn;
-			newCxn2->adjCity = newNode2;
-			newCxn2->distance = d2;
+			Cxn newCxn2;
+			newCxn2.adjCity = newNode2;
+			newCxn2.distance = d2;
+			cxnList.push_back(newCxn2);
 		}
 		if (newNode3 != nullptr)
 		{
-			Cxn* newCxn3 = new Cxn;
-			newCxn3->adjCity = newNode3;
-			newCxn3->distance = d3;
+			Cxn newCxn3;
+			newCxn3.adjCity = newNode3;
+			newCxn3.distance = d3;
+			cxnList.push_back(newCxn3);
 		}
 		if (newNode4 != nullptr)
 		{
-			Cxn* newCxn4 = new Cxn;
-			newCxn4->adjCity = newNode4;
-			newCxn4->distance = d4;
+			Cxn newCxn4;
+			newCxn4.adjCity = newNode4;
+			newCxn4.distance = d4;
+			cxnList.push_back(newCxn4);
 		}
 	}
 };
