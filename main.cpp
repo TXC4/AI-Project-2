@@ -115,12 +115,30 @@ void BFS(Node* root)
 			{
 				i.adjCity->visited = true;
 				bfsq.push_back(i.adjCity);
+				i.adjCity->parent = currentNode;
 				cout << "adjCity  :" << i.adjCity->city << endl << endl;
 			}
 			
 			if (i.adjCity->city == "Bucharest")
 			{
 				cout << "Bucharest found";
+				Node* temp = i.adjCity;
+				vector<string>tempList;
+
+				while (temp->city != "Oradea")
+				{
+					tempList.push_back(temp->city);
+					temp = temp->parent;
+				} 
+				if (temp->city == "Oradea")
+					tempList.push_back(temp->city);
+				
+				cout << "BFS Path:  ";
+				for (auto it : tempList)
+				{
+					cout << it << ", ";
+				}
+				
 				return;
 			}
 		}
