@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <queue>
+#include <list>
 #include "LinkedList.h"
 
 using namespace std;
@@ -61,7 +62,7 @@ int main()
 	BFS(&Oradea);
 
 	/*
-	for (auto i : Bucharest.cxnList)
+	for (auto i : Zerind.cxnList)
 	{
 		cout << i.adjCity->city << ", " << i.distance << endl;
 	}
@@ -92,26 +93,29 @@ string getSearchType()
 void BFS(Node* root)
 {
 	Node* currentNode = root;
-	std::queue<Node*>bfsq;
+	std::list<Node*>bfsq;
 	vector<Node>currentDepth;
 	bool bucharestFound = false;
 
 	//root is visited, add to queue
 	root->visited = true;
-	bfsq.emplace(root);
+	bfsq.push_back(root);
 	
-	while (!bfsq.empty() && !bucharestFound)
+	while (!bfsq.empty())//(!bfsq.empty() && !bucharestFound)
 	{
-		Node* current = bfsq.front();
-		cout << "Current: " << current->city << endl;
-		bfsq.pop();
-		//checks if Bucharest has been found
+		currentNode = bfsq.front();
+		cout << "Front  :" << bfsq.front()->city << endl;
+		cout << "Current: " << currentNode->city << endl << endl;
+		bfsq.pop_front();
+
 		for (auto i : currentNode->cxnList)
 		{
+			
 			if (!i.adjCity->visited)
 			{
 				i.adjCity->visited = true;
-				bfsq.emplace(i.adjCity);
+				bfsq.push_back(i.adjCity);
+				cout << "adjCity  :" << i.adjCity->city << endl << endl;
 			}
 			
 			if (i.adjCity->city == "Bucharest")
@@ -119,9 +123,9 @@ void BFS(Node* root)
 				cout << "Bucharest found";
 				return;
 			}
-			
 		}
 	}
+	//TODO give each node a parent field so we can backtrack to origin
 }
 
 void DFS(Node* root)
