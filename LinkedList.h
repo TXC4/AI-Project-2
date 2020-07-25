@@ -6,15 +6,21 @@ struct Node
 {
 	struct Cxn
 	{
-		Node* adjCity;
+		Node* adjCity = nullptr;
 		int distance = 0;
 	};
 	std::string city = "";
 	std::vector<Cxn>cxnList;
-	Node(std::string _city)
+	bool visited = false;
+	Node* parent = nullptr;
+
+	//Constructor
+	Node(std::string _city = "undefined city")
 	{
-		city = _city;
+		this->city = _city;
 	}
+
+	//A node can have up to 4 connections
 	void addCxn(Node* newNode1 = nullptr, int d1 = 0, Node* newNode2 = nullptr, int d2 = 0,
 		Node* newNode3 = nullptr, int d3 = 0, Node* newNode4 = nullptr, int d4 = 0)
 	{
