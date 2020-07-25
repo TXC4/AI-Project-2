@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <queue>
+#include <stack>
 #include <list>
 #include "LinkedList.h"
 
@@ -142,7 +143,6 @@ void BFS(Node* root)
 {
 	Node* currentNode = root;
 	std::list<Node*>bfsq;
-	vector<Node>currentDepth;
 	bool bucharestFound = false;
 
 	//root is visited, add to queue
@@ -186,20 +186,67 @@ void BFS(Node* root)
 				{
 					cout << it << ", ";
 				}
-				
 				return;
 			}
 		}
 	}
-	//TODO give each node a parent field so we can backtrack to origin
 }
+
 
 void DFS(Node* root)
 {
-	vector<Node>visited;
+	vector<Node*>dStack;
+	dStack.push_back(root);
+	Node* currentNode = nullptr;
+	Node* oldNode = nullptr;
+	while (!dStack.empty())
+	{
+		currentNode = dStack.back();
+		
+		if (!currentNode->visited)
+		{
+			cout << "Visited:  " << currentNode->city << endl;
+			currentNode->visited = true;
+		}
+		oldNode = dStack.back();
+		for (auto i : currentNode->cxnList)
+		{
+			if (!i.adjCity->visited)
+			{
+				dStack.push_back(i.adjCity);
+				if (i.adjCity->city == "Bucharest")
+				{
+					cout << "Path:  ";
+					for (auto j : dStack)
+					{
+						cout << j->city << ", ";
+					}
+					cout << endl;
+					return;
+				}
+				break;
+			}
+		}
+		if (oldNode == dStack.back())
+			dStack.pop_back();
+	}
 }
 
+void idsLoop(Node* root)
+{
+	Node* currentNode = root;
+	for (auto i : currentNode->cxnList)
+	{
+		if (i.adjCity->city == "Bucharest")
+		{
+			cout << "Found";
+			return;
+		}
+		if (i.adjCity->visited == false)
+			idsLoop(i.adjCity);
+	}
+}
 void IDS(Node* root)
 {
-	vector<Node>visited;
+	idsLoop(root);
 }
