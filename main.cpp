@@ -54,12 +54,60 @@ int main()
 	Hirsova.addCxn(&Urziceni, 98, &Eforie, 86);
 	Eforie.addCxn(&Hirsova, 86);
 	Vaslui.addCxn(&Urziceni, 142, &Iasi, 92);
+	Iasi.addCxn(&Vaslui, 92, &Neamt, 87);
 	Neamt.addCxn(&Iasi, 92);
 
 	string sl = getStartLocation();
 	string st = getSearchType();
 
-	BFS(&Oradea);
+	Node* startNode = nullptr;
+	if (sl == "Oradea")
+		startNode = &Oradea;
+	else if (sl == "Zerind")
+		startNode = &Zerind;
+	else if (sl == "Arad")
+		startNode = &Arad;
+	else if (sl == "Timisoara")
+		startNode = &Timisoara;
+	else if (sl == "Lugoj")
+		startNode = &Lugoj;
+	else if (sl == "Mehadia")
+		startNode = &Mehadia;
+	else if (sl == "Drobeta")
+		startNode = &Drobeta;
+	else if (sl == "Craiova")
+		startNode = &Craiova;
+	else if (sl == "Remnicu Vilcea")
+		startNode = &RV;
+	else if (sl == "Sibiu")
+		startNode = &Sibiu;
+	else if (sl == "Fagarus")
+		startNode = &Fagarus;
+	else if (sl == "Pitesti")
+		startNode = &Pitesti;
+	else if (sl == "Bucharest")
+		startNode = &Bucharest;
+	else if (sl == "Giurgiu")
+		startNode = &Giurgiu;
+	else if (sl == "Urziceni")
+		startNode = &Urziceni;
+	else if (sl == "Hirsova")
+		startNode = &Hirsova;
+	else if (sl == "Eforie")
+		startNode = &Eforie;
+	else if (sl == "Vaslui")
+		startNode = &Vaslui;
+	else if (sl == "Iasi")
+		startNode = &Iasi;
+	else if (sl == "Neamt")
+		startNode = &Neamt;
+
+	if (st == "b")
+		BFS(startNode);
+	else if (st == "d")
+		DFS(startNode);
+	else if (st == "i")
+		IDS(startNode);
 
 	/*
 	for (auto i : Zerind.cxnList)
@@ -125,12 +173,12 @@ void BFS(Node* root)
 				Node* temp = i.adjCity;
 				vector<string>tempList;
 
-				while (temp->city != "Oradea")
+				while (temp->city != root->city)
 				{
 					tempList.push_back(temp->city);
 					temp = temp->parent;
 				} 
-				if (temp->city == "Oradea")
+				if (temp->city == root->city)
 					tempList.push_back(temp->city);
 				
 				cout << "BFS Path:  ";
