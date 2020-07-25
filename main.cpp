@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <queue>
 #include "LinkedList.h"
 
 using namespace std;
@@ -59,10 +60,13 @@ int main()
 
 	BFS(&Oradea);
 
+	/*
 	for (auto i : Bucharest.cxnList)
 	{
 		cout << i.adjCity->city << ", " << i.distance << endl;
 	}
+	*/
+	
 }
 
 string getStartLocation()
@@ -85,33 +89,38 @@ string getSearchType()
 	return searchType;
 }
 
-//TODO
 void BFS(Node* root)
 {
 	Node* currentNode = root;
-	vector<Node>visited;
+	std::queue<Node*>bfsq;
 	vector<Node>currentDepth;
+	bool bucharestFound = false;
 
-	//checks if Bucharest has been found
-	for (auto i : currentNode->cxnList)
+	//root is visited, add to queue
+	root->visited = true;
+	bfsq.emplace(root);
+	
+	while (!bfsq.empty() && !bucharestFound)
 	{
-		if (i.adjCity->city == "Bucharest")
+		Node* current = bfsq.front();
+		cout << "Current: " << current->city << endl;
+		bfsq.pop();
+		//checks if Bucharest has been found
+		for (auto i : currentNode->cxnList)
 		{
-			cout << "Bucharest found";
-			return;
+			if (!i.adjCity->visited)
+			{
+				i.adjCity->visited = true;
+				bfsq.emplace(i.adjCity);
+			}
+			
+			if (i.adjCity->city == "Bucharest")
+			{
+				cout << "Bucharest found";
+				return;
+			}
+			
 		}
-	}
-	//checks if next level is visited before adding to currentDepth
-	for (auto i : currentNode->cxnList)
-	{
-		bool unvisited = true;
-		for (auto j : visited)
-		{
-			if (i.adjCity->city == j.city)
-				unvisited = false;
-		}
-		if (unvisited == true)
-			currentDepth.push_back(*currentNode);
 	}
 }
 
