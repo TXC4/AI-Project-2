@@ -30,7 +30,7 @@ int main()
 	Node Craiova("Craiova");
 	Node Bucharest("Bucharest");
 	Node Giurgiu("Giurgiu");
-	Node Urziceni("Urziceni");
+	Node Urziceni("Urziceni"); 
 	Node Vaslui("Vaslui");
 	Node Iasi("Iasi");
 	Node Neamt("Neamt");
@@ -144,6 +144,7 @@ void BFS(Node* root)
 	Node* currentNode = root;
 	std::list<Node*>bfsq;
 	bool bucharestFound = false;
+	std::vector<string>vList;
 
 	//root is visited, add to queue
 	root->visited = true;
@@ -152,8 +153,6 @@ void BFS(Node* root)
 	while (!bfsq.empty())//(!bfsq.empty() && !bucharestFound)
 	{
 		currentNode = bfsq.front();
-		cout << "Front  :" << bfsq.front()->city << endl;
-		cout << "Current: " << currentNode->city << endl << endl;
 		bfsq.pop_front();
 
 		for (auto i : currentNode->cxnList)
@@ -161,15 +160,14 @@ void BFS(Node* root)
 			
 			if (!i.adjCity->visited)
 			{
+				vList.push_back(i.adjCity->city);
 				i.adjCity->visited = true;
 				bfsq.push_back(i.adjCity);
 				i.adjCity->parent = currentNode;
-				cout << "adjCity  :" << i.adjCity->city << endl << endl;
 			}
 			
 			if (i.adjCity->city == "Bucharest")
 			{
-				cout << "Bucharest found";
 				Node* temp = i.adjCity;
 				vector<string>tempList;
 
@@ -181,11 +179,24 @@ void BFS(Node* root)
 				if (temp->city == root->city)
 					tempList.push_back(temp->city);
 				
-				cout << "BFS Path:  ";
-				for (auto it : tempList)
+				cout << "Visited:  ";
+				for (int k = 0; k < vList.size(); k++)
 				{
-					cout << it << ", ";
+					cout << vList[k];
+					if (k < vList.size() - 1)
+						cout << ", ";
 				}
+				cout << endl;
+
+				cout << "BFS Path: ";
+				for (int j = tempList.size() - 1; j >= 0; j--)
+				{
+					cout << tempList[j];
+					if (j != 0)
+						cout << ", ";
+				}
+				cout << endl;
+
 				return;
 			}
 		}
@@ -195,6 +206,7 @@ void BFS(Node* root)
 
 void DFS(Node* root)
 {
+	vector<string>vList;
 	vector<Node*>dStack;
 	dStack.push_back(root);
 	Node* currentNode = nullptr;
@@ -205,7 +217,7 @@ void DFS(Node* root)
 		
 		if (!currentNode->visited)
 		{
-			cout << "Visited:  " << currentNode->city << endl;
+			vList.push_back(currentNode->city);
 			currentNode->visited = true;
 		}
 		oldNode = dStack.back();
@@ -216,10 +228,21 @@ void DFS(Node* root)
 				dStack.push_back(i.adjCity);
 				if (i.adjCity->city == "Bucharest")
 				{
-					cout << "Path:  ";
-					for (auto j : dStack)
+					vList.push_back(i.adjCity->city);
+					cout << "Visited:  ";
+					for (int j = 0; j < vList.size(); j++)
 					{
-						cout << j->city << ", ";
+						cout << vList[j];
+						if (j < vList.size()-1)
+							cout << ", ";
+					}
+					cout << endl;
+					cout << "Path:  ";
+					for (int j = 0; j < dStack.size(); j++)
+					{
+						cout << dStack[j]->city;
+						if (j < dStack.size() - 1)
+							cout << ", ";
 					}
 					cout << endl;
 					return;
