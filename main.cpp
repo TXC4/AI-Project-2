@@ -4,6 +4,7 @@
 #include <queue>
 #include <stack>
 #include <list>
+#include <fstream>
 #include "LinkedList.h"
 
 using namespace std;
@@ -109,14 +110,6 @@ int main()
 		DFS(startNode);
 	else if (st == "i")
 		IDS(startNode);
-
-	/*
-	for (auto i : Zerind.cxnList)
-	{
-		cout << i.adjCity->city << ", " << i.distance << endl;
-	}
-	*/
-	
 }
 
 string getStartLocation()
@@ -149,8 +142,24 @@ void BFS(Node* root)
 	//root is visited, add to queue
 	root->visited = true;
 	bfsq.push_back(root);
+
+	//check if we start in Bucharest
+	if (currentNode->city == "Bucharest")
+	{
+		std::ofstream oStr;
+		oStr.open("visited.txt");
+		oStr << "Bucharest";
+		oStr.close();
+		std::ofstream oStr2;
+		oStr2.open("path.txt");
+		oStr2 << "Bucharest";
+		oStr2.close();
+		cout << "Visited:  Bucharest" << endl;
+		cout << "Path:  Bucharest.. just don't move and you are there" << endl;
+		return;
+	}
 	
-	while (!bfsq.empty())//(!bfsq.empty() && !bucharestFound)
+	while (!bfsq.empty())
 	{
 		currentNode = bfsq.front();
 		bfsq.pop_front();
@@ -161,6 +170,15 @@ void BFS(Node* root)
 			if (!i.adjCity->visited)
 			{
 				vList.push_back(i.adjCity->city);
+
+				std::ofstream oStr;
+				oStr.open("visited.txt");
+				for (int j = 0; j < vList.size() - 1; j++)
+				{
+					oStr << vList[j] << ",";
+				}
+				oStr.close();
+
 				i.adjCity->visited = true;
 				bfsq.push_back(i.adjCity);
 				i.adjCity->parent = currentNode;
@@ -188,13 +206,20 @@ void BFS(Node* root)
 				}
 				cout << endl;
 
+				std::ofstream oStr;
+				oStr.open("path.txt");
 				cout << "BFS Path: ";
 				for (int j = tempList.size() - 1; j >= 0; j--)
 				{
 					cout << tempList[j];
+					oStr << tempList[j];
 					if (j != 0)
+					{
 						cout << ", ";
+						oStr << ",";
+					}
 				}
+				oStr.close();
 				cout << endl;
 
 				return;
@@ -211,6 +236,21 @@ void DFS(Node* root)
 	dStack.push_back(root);
 	Node* currentNode = nullptr;
 	Node* oldNode = nullptr;
+
+	//check if we start in Bucharest
+	if (root->city == "Bucharest")
+	{
+		std::ofstream oStr;
+		oStr.open("visited.txt");
+		oStr << "Bucharest";
+		oStr.open("path.txt");
+		oStr << "Bucharest";
+		oStr.close();
+		cout << "Visited:  Bucharest" << endl;
+		cout << "Path:  Bucharest.. just don't move and you are there" << endl;
+		return;
+	}
+
 	while (!dStack.empty())
 	{
 		currentNode = dStack.back();
