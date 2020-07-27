@@ -313,21 +313,64 @@ void DFS(Node* root)
 	}
 }
 
-void idsLoop(Node* root)
+vector<string>pathList;
+vector<string>visitedList;
+bool idsLoop(Node* root, int max)
 {
 	Node* currentNode = root;
+	cout << currentNode->city << ", ";
+	visitedList.push_back(currentNode->city);
+	if (root->city == "Bucharest")
+	{
+		return true;
+	}
+
+	if (max <= 0)
+		return false;
+
 	for (auto i : currentNode->cxnList)
 	{
-		if (i.adjCity->city == "Bucharest")
+		if (idsLoop(i.adjCity, max - 1) == true)
 		{
-			cout << "Found";
-			return;
+			pathList.push_back(i.adjCity->city);
+			return true;
 		}
-		if (i.adjCity->visited == false)
-			idsLoop(i.adjCity);
 	}
+	return false;
 }
 void IDS(Node* root)
 {
-	idsLoop(root);
+	int maxDepth = 10;
+	cout << "Visited:  ";
+	for (int i = 0; i < maxDepth; i++)
+	{
+		if (idsLoop(root, i) == true)
+		{
+			cout << "loop returned true" << endl;
+			pathList.push_back(root->city);
+			break;
+		}
+	}
+	std::ofstream oStr;
+	oStr.open("path.txt");
+	cout << "Path:  ";
+	for (int i = pathList.size() - 1; i >= 0; i--)
+	{
+		oStr << pathList[i] << ",";
+		cout << pathList[i];
+		if (i > 0)
+		{
+			cout << ", ";
+		}
+	}
+	std::ofstream oStr2;
+	oStr2.open("visited.txt");
+	for (int i = visitedList.size() - 1; i >= 0; i--)
+	{
+		oStr2 << visitedList[i];
+		if (i > 0)
+			oStr2 << ",";
+	}
+	oStr2.close();
+	cout << endl;
 }
