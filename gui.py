@@ -70,7 +70,7 @@ while True:
             pygame.quit()
             quit()
     clock = pygame.time.Clock()
-    clock.tick(30)
+    clock.tick(5)
 
     gameDisplay.fill(black)
 
@@ -78,6 +78,7 @@ while True:
         reader = csv.reader(csv_file, delimiter=',')
         data = list(reader)
 
+    #check if change made to visited.txt
     if priorVisitedList != None and priorVisitedList != data:
         resetBoard()
         
@@ -129,6 +130,10 @@ while True:
         reader = csv.reader(csv_file, delimiter=',')
         data2 = list(reader)
 
+    #check if change made to path.txt
+    if priorPathList != None and priorPathList != data2:
+        resetBoard()
+
     if "Oradea" in data2[0]:
         oradeaColor = green
     if "Zerind" in data2[0]:
@@ -169,6 +174,8 @@ while True:
         iasiColor = green
     if "Neamt" in data2[0]:
         neamtColor = green
+
+    priorPathList = data2
     csv_file.close()
 
     pygame.draw.line(gameDisplay, red, (200,50), (170,150),5)
