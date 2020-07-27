@@ -243,9 +243,11 @@ void DFS(Node* root)
 		std::ofstream oStr;
 		oStr.open("visited.txt");
 		oStr << "Bucharest";
-		oStr.open("path.txt");
-		oStr << "Bucharest";
 		oStr.close();
+		std::ofstream oStr2;
+		oStr2.open("path.txt");
+		oStr2 << "Bucharest";
+		oStr2.close();
 		cout << "Visited:  Bucharest" << endl;
 		cout << "Path:  Bucharest.. just don't move and you are there" << endl;
 		return;
@@ -266,6 +268,15 @@ void DFS(Node* root)
 			if (!i.adjCity->visited)
 			{
 				dStack.push_back(i.adjCity);
+
+				std::ofstream oStr;
+				oStr.open("visited.txt");
+				for (int j = 0; j < vList.size() - 1; j++)
+				{
+					oStr << vList[j] << ",";
+				}
+				oStr.close();
+
 				if (i.adjCity->city == "Bucharest")
 				{
 					vList.push_back(i.adjCity->city);
@@ -278,12 +289,19 @@ void DFS(Node* root)
 					}
 					cout << endl;
 					cout << "Path:  ";
+					std::ofstream oStr;
+					oStr.open("path.txt");
 					for (int j = 0; j < dStack.size(); j++)
 					{
 						cout << dStack[j]->city;
+						oStr << dStack[j]->city;
 						if (j < dStack.size() - 1)
+						{
 							cout << ", ";
+							oStr << ",";
+						}
 					}
+					oStr.close();
 					cout << endl;
 					return;
 				}
