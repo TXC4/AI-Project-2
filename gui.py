@@ -39,6 +39,7 @@ vasluiText = font.render('Vaslui', False, (200,200,200))
 iasiText = font.render('Iasi', False, (200,200,200))
 neamtText = font.render('Neamt', False, (200,200,200))
 
+
 unvisitedText = font.render('= Unvisited', False, (200,200,200))
 visitedText = font.render(' = Visited', False, (200,200,200))
 pathText = font.render(' = Path', False, (200,200,200))
@@ -182,6 +183,9 @@ while True:
         with open(pFilePath) as csv_file:
             reader = csv.reader(csv_file, delimiter=',')
             data2 = list(reader)
+            cost = len(data2[0])
+            costString = 'Cost:  ' + str(cost)
+            costText = font.render(costString, False, (200,200,200))
 
         #check if change made to path.txt
             if priorPathList != None and priorPathList != data2:
@@ -281,6 +285,8 @@ while True:
     pygame.draw.circle(gameDisplay, blue, (1500, 325), 30)
     pygame.draw.circle(gameDisplay, green, (1500, 400), 30)
 
+    
+    gameDisplay.blit(costText,(1530, 175))
     gameDisplay.blit(unvisitedText,(1530,250))
     gameDisplay.blit(visitedText,(1530,325))
     gameDisplay.blit(pathText,(1530,400))
