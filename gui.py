@@ -1,5 +1,6 @@
 import pygame
 import csv
+import os
 
 pygame.init()
 
@@ -38,6 +39,10 @@ vasluiText = font.render('Vaslui', False, (200,200,200))
 iasiText = font.render('Iasi', False, (200,200,200))
 neamtText = font.render('Neamt', False, (200,200,200))
 
+unvisitedText = font.render('= Unvisited', False, (200,200,200))
+visitedText = font.render(' = Visited', False, (200,200,200))
+pathText = font.render(' = Path', False, (200,200,200))
+
 oradeaColor = red
 zerindColor = red
 aradColor = red
@@ -60,7 +65,7 @@ iasiColor = red
 neamtColor = red
 
 def resetBoard():
-    global oradeaColor, zerindColor, aradColor, timisoaraColor, lugojColor, mehadiaColor, drobetaColor, craiovaColor, rvColor, sibiuColor, fagarusColor, pitestiColor, bucharestColor, giurgiuColor, urziceniColor, eforieColor, vasluiColor, iasiColor, neamtColor
+    global oradeaColor, zerindColor, aradColor, timisoaraColor, lugojColor, mehadiaColor, drobetaColor, craiovaColor, rvColor, sibiuColor, fagarusColor, pitestiColor, bucharestColor, giurgiuColor, urziceniColor, eforieColor, vasluiColor, hirsovaColor, iasiColor, neamtColor
     oradeaColor = red
     zerindColor = red
     aradColor = red
@@ -116,109 +121,115 @@ while True:
     gameDisplay.blit(iasiText,(1130,220))
     gameDisplay.blit(neamtText,(955,90))
 
-    with open('C:/Users/Carlton/source/repos/AI Project 2/AI Project 2/visited.txt') as csv_file:
-        reader = csv.reader(csv_file, delimiter=',')
-        data = list(reader)
+    vFilePath = 'C:/Users/Carlton/source/repos/AI Project 2/AI Project 2/visited.txt'
+    pFilePath = 'C:/Users/Carlton/source/repos/AI Project 2/AI Project 2/path.txt'
 
-    #check if change made to visited.txt
-    if priorVisitedList != None and priorVisitedList != data:
-        resetBoard()
-        
-    if "Oradea" in data[0]:
-        oradeaColor = blue
-    if "Zerind" in data[0]:
-        zerindColor = blue
-    if "Arad" in data[0]:
-        aradColor = blue
-    if "Timisoara" in data[0]:
-        timisoaraColor = blue
-    if "Lugoj" in data[0]:
-        lugojColor = blue
-    if "Mehadia" in data[0]:
-        mehadiaColor = blue
-    if "Drobeta" in data[0]:
-        drobetaColor = blue
-    if "Craiova" in data[0]:
-        craiovaColor = blue
-    if "Rimnicu Vilcea" in data[0]:
-        rvColor = blue
-    if "Sibiu" in data[0]:
-        sibiuColor = blue 
-    if "Fagarus" in data[0]:
-        fagarusColor = blue
-    if "Pitesti" in data[0]:
-        pitestiColor = blue
-    if "Bucharest" in data[0]:
-        bucharestColor = blue
-    if "Giurgiu" in data[0]:
-        giurgiuColor = blue
-    if "Urziceni" in data[0]:
-        urziceniColor = blue
-    if "Hirsova" in data[0]:
-        hirsovaColor = blue
-    if "Eforie" in data[0]:
-        eforieColor = blue
-    if "Vaslui" in data[0]:
-        vasluiColor = blue
-    if "Iasi" in data[0]:
-        iasiColor = blue
-    if "Neamt" in data[0]:
-        neamtColor = blue
+    
+    if os.stat(vFilePath).st_size != 0:
+        with open(vFilePath) as csv_file:
+            reader = csv.reader(csv_file, delimiter=',')
+            data = list(reader)
 
-    priorVisitedList = data
-    csv_file.close()
+        #check if change made to visited.txt
+            if priorVisitedList != None and priorVisitedList != data:
+                resetBoard()
+                
+            if "Oradea" in data[0]:
+                oradeaColor = blue
+            if "Zerind" in data[0]:
+                zerindColor = blue
+            if "Arad" in data[0]:
+                aradColor = blue
+            if "Timisoara" in data[0]:
+                timisoaraColor = blue
+            if "Lugoj" in data[0]:
+                lugojColor = blue
+            if "Mehadia" in data[0]:
+                mehadiaColor = blue
+            if "Drobeta" in data[0]:
+                drobetaColor = blue
+            if "Craiova" in data[0]:
+                craiovaColor = blue
+            if "Rimnicu Vilcea" in data[0]:
+                rvColor = blue
+            if "Sibiu" in data[0]:
+                sibiuColor = blue 
+            if "Fagarus" in data[0]:
+                fagarusColor = blue
+            if "Pitesti" in data[0]:
+                pitestiColor = blue
+            if "Bucharest" in data[0]:
+                bucharestColor = blue
+            if "Giurgiu" in data[0]:
+                giurgiuColor = blue
+            if "Urziceni" in data[0]:
+                urziceniColor = blue
+            if "Hirsova" in data[0]:
+                hirsovaColor = blue
+            if "Eforie" in data[0]:
+                eforieColor = blue
+            if "Vaslui" in data[0]:
+                vasluiColor = blue
+            if "Iasi" in data[0]:
+                iasiColor = blue
+            if "Neamt" in data[0]:
+                neamtColor = blue
 
-    with open('C:/Users/Carlton/source/repos/AI Project 2/AI Project 2/path.txt') as csv_file:
-        reader = csv.reader(csv_file, delimiter=',')
-        data2 = list(reader)
+        priorVisitedList = data
+        csv_file.close()
 
-    #check if change made to path.txt
-    if priorPathList != None and priorPathList != data2:
-        resetBoard()
+    if os.stat(pFilePath).st_size != 0:
+        with open(pFilePath) as csv_file:
+            reader = csv.reader(csv_file, delimiter=',')
+            data2 = list(reader)
 
-    if "Oradea" in data2[0]:
-        oradeaColor = green
-    if "Zerind" in data2[0]:
-        zerindColor = green
-    if "Arad" in data2[0]:
-        aradColor = green
-    if "Timisoara" in data2[0]:
-        timisoaraColor = green
-    if "Lugoj" in data2[0]:
-        lugojColor = green
-    if "Mehadia" in data2[0]:
-        mehadiaColor = green
-    if "Drobeta" in data2[0]:
-        drobetaColor = green
-    if "Craiova" in data2[0]:
-        craiovaColor = green
-    if "Rimnicu Vilcea" in data2[0]:
-        rvColor = green
-    if "Sibiu" in data2[0]:
-        sibiuColor = green 
-    if "Fagarus" in data2[0]:
-        fagarusColor = green
-    if "Pitesti" in data2[0]:
-        pitestiColor = green
-    if "Bucharest" in data2[0]:
-        bucharestColor = green
-    if "Giurgiu" in data2[0]:
-        giurgiuColor = green
-    if "Urziceni" in data2[0]:
-        urziceniColor = green
-    if "Hirsova" in data2[0]:
-        hirsovaColor = green
-    if "Eforie" in data2[0]:
-        eforieColor = green
-    if "Vaslui" in data2[0]:
-        vasluiColor = green
-    if "Iasi" in data2[0]:
-        iasiColor = green
-    if "Neamt" in data2[0]:
-        neamtColor = green
+        #check if change made to path.txt
+            if priorPathList != None and priorPathList != data2:
+                resetBoard()
 
-    priorPathList = data2
-    csv_file.close()
+            if "Oradea" in data2[0]:
+                oradeaColor = green
+            if "Zerind" in data2[0]:
+                zerindColor = green
+            if "Arad" in data2[0]:
+                aradColor = green
+            if "Timisoara" in data2[0]:
+                timisoaraColor = green
+            if "Lugoj" in data2[0]:
+                lugojColor = green
+            if "Mehadia" in data2[0]:
+                mehadiaColor = green
+            if "Drobeta" in data2[0]:
+                drobetaColor = green
+            if "Craiova" in data2[0]:
+                craiovaColor = green
+            if "Rimnicu Vilcea" in data2[0]:
+                rvColor = green
+            if "Sibiu" in data2[0]:
+                sibiuColor = green 
+            if "Fagarus" in data2[0]:
+                fagarusColor = green
+            if "Pitesti" in data2[0]:
+                pitestiColor = green
+            if "Bucharest" in data2[0]:
+                bucharestColor = green
+            if "Giurgiu" in data2[0]:
+                giurgiuColor = green
+            if "Urziceni" in data2[0]:
+                urziceniColor = green
+            if "Hirsova" in data2[0]:
+                hirsovaColor = green
+            if "Eforie" in data2[0]:
+                eforieColor = green
+            if "Vaslui" in data2[0]:
+                vasluiColor = green
+            if "Iasi" in data2[0]:
+                iasiColor = green
+            if "Neamt" in data2[0]:
+                neamtColor = green
+
+        priorPathList = data2
+        csv_file.close()
 
     pygame.draw.line(gameDisplay, red, (200,50), (170,150),5)
     pygame.draw.line(gameDisplay, red, (200,50), (450,270), 5)
@@ -265,5 +276,13 @@ while True:
     pygame.draw.circle(gameDisplay, vasluiColor, (1200,350), 20)#vaslui
     pygame.draw.circle(gameDisplay, iasiColor, (1100, 220), 20)#iasi
     pygame.draw.circle(gameDisplay, neamtColor, (915,100), 20)#neamt
+
+    pygame.draw.circle(gameDisplay, red, (1500, 250), 30)
+    pygame.draw.circle(gameDisplay, blue, (1500, 325), 30)
+    pygame.draw.circle(gameDisplay, green, (1500, 400), 30)
+
+    gameDisplay.blit(unvisitedText,(1530,250))
+    gameDisplay.blit(visitedText,(1530,325))
+    gameDisplay.blit(pathText,(1530,400))
     
     pygame.display.update()
