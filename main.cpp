@@ -15,9 +15,10 @@ void BFS(Node*);
 void DFS(Node*);
 void IDS(Node*);
 
+int stepCount = 0;
+
 int main()
 {
-	cout << "DISCLAIMER:  Known bug when running search multiple times without closing program\n\n";
 	while (true)
 	{
 		Node Oradea("Oradea");
@@ -115,6 +116,13 @@ int main()
 			DFS(startNode);
 		else if (st == "i")
 			IDS(startNode);
+
+		ofstream outFile;
+		outFile.open("stepCount.txt");
+		outFile << stepCount;
+		outFile.close();
+
+		stepCount = 0;
 	}
 }
 
@@ -169,12 +177,14 @@ void BFS(Node* root)
 	{
 		currentNode = bfsq.front();
 		bfsq.pop_front();
+		
 
 		for (auto i : currentNode->cxnList)
 		{
 			
 			if (!i.adjCity->visited)
 			{
+				stepCount++;
 				vList.push_back(i.adjCity->city);
 
 				std::ofstream oStr;
@@ -265,6 +275,7 @@ void DFS(Node* root)
 		
 		if (!currentNode->visited)
 		{
+			stepCount++;
 			vList.push_back(currentNode->city);
 			currentNode->visited = true;
 		}
@@ -328,6 +339,7 @@ bool idsLoop(Node* root, int max)
 	Node* currentNode = root;
 	cout << currentNode->city << ", ";
 	visitedList.push_back(currentNode->city);
+	stepCount++;
 	if (root->city == "Bucharest")
 	{
 		return true;
