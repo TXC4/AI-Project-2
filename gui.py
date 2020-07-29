@@ -90,6 +90,7 @@ def resetBoard():
 
 priorVisitedList = None
 priorPathList = None
+searchStepCount = 0
 
 while True:
     for event in pygame.event.get():
@@ -124,8 +125,8 @@ while True:
 
     vFilePath = 'C:/Users/Carlton/source/repos/AI Project 2/AI Project 2/visited.txt'
     pFilePath = 'C:/Users/Carlton/source/repos/AI Project 2/AI Project 2/path.txt'
+    sFilePath = 'C:/Users/Carlton/source/repos/AI Project 2/AI Project 2/stepCount.txt'
 
-    
     if os.stat(vFilePath).st_size != 0:
         with open(vFilePath) as csv_file:
             reader = csv.reader(csv_file, delimiter=',')
@@ -183,8 +184,8 @@ while True:
         with open(pFilePath) as csv_file:
             reader = csv.reader(csv_file, delimiter=',')
             data2 = list(reader)
-            cost = len(data2[0])
-            costString = 'Cost:  ' + str(cost)
+            cost = len(data2[0]) - 1
+            costString = 'Path Cost:  ' + str(cost)
             costText = font.render(costString, False, (200,200,200))
 
         #check if change made to path.txt
@@ -234,6 +235,13 @@ while True:
 
         priorPathList = data2
         csv_file.close()
+
+    if os.stat(sFilePath).st_size != 0:
+        sFile = open(sFilePath)
+        searchStepCount = sFile.read()
+        searchCostString = "Search Cost:  " + str(searchStepCount)
+        searchCostText = font.render(searchCostString, False, (200,200,200))
+        sFile.close()
 
     pygame.draw.line(gameDisplay, red, (200,50), (170,150),5)
     pygame.draw.line(gameDisplay, red, (200,50), (450,270), 5)
@@ -285,10 +293,11 @@ while True:
     pygame.draw.circle(gameDisplay, blue, (1500, 325), 30)
     pygame.draw.circle(gameDisplay, green, (1500, 400), 30)
 
-    
-    gameDisplay.blit(costText,(1530, 175))
+    gameDisplay.blit(searchCostText,(1480, 100))
+    gameDisplay.blit(costText,(1480, 150))
     gameDisplay.blit(unvisitedText,(1530,250))
     gameDisplay.blit(visitedText,(1530,325))
     gameDisplay.blit(pathText,(1530,400))
+    
     
     pygame.display.update()
